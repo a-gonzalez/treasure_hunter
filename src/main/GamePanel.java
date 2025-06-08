@@ -1,0 +1,107 @@
+package main;
+
+import javax.swing.JPanel;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import entity.Player;
+import tile.Background;
+
+public class GamePanel extends JPanel implements Runnable
+{
+    // Screen settings
+    final int originalTileSize = 16;
+    final int scale = 3;
+    public final int tileSize = originalTileSize * scale;
+    public final int maxScreenColumns = 16;
+    public final int maxScreenRows = 12;
+    public final int screenWidth = tileSize * maxScreenColumns; // 768
+    public final int screenHeight = tileSize * maxScreenRows; // 576
+    final int FPS = 60;
+
+    Thread thread;
+    Control control = new Control();
+    Background background = new Background(this);
+    
+    public Collision collision = new Collision(this);
+    public Player player = new Player(this, control);
+
+    // World settings
+    public final int maxWorldColumns = 50;
+    public final int maxWorldRows = 50;
+    public final int worldWidth = tileSize * maxWorldColumns;
+    public final int worldHeight = tileSize * maxWorldRows;
+
+    public GamePanel()
+    {
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setBackground(Color.black);
+        this.setDoubleBuffered(true);
+        this.addKeyListener(control);
+        this.setFocusable(true);
+    }
+
+    public void start()
+    {
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    @Override
+    public void run()
+    {
+        double interval = 1000000000 / FPS; // 0.01666 seconds
+        double delta_time = 0;
+        long previous_time = System.nanoTime();
+        long current_time = 0;
+        
+        /*long timer = 0;
+        int count = 0;*/
+
+        while (thread != null) // game loop
+        {
+            current_time = System.nanoTime();
+            delta_time += (current_time - previous_time) / interval;
+            //timer += (current_time - previous_time);
+            previous_time = current_time;
+
+            //System.out.format("Current: %d\n", current);
+
+            if (delta_time >= 1)
+            {
+                // Update: update information. ie character position information
+                update(delta_time);
+
+                // Draw: draw the screen with update information
+                repaint();
+
+                delta_time--;
+                //count++;
+            }
+        }
+    }
+
+    public void update(double delta_time)
+    {
+        player.update(delta_time);
+    }
+
+    public void paintComponent(Graphics graphics)
+    {
+        super.paintComponent(graphics);
+
+        //System.out.format("X: %d - Y: %d\n", x, y);
+
+        Graphics2D g2 = (Graphics2D) graphics;
+        /*g2.setColor(Color.white);
+        g2.fillRect(x, y, tileSize, tileSize);*/
+        
+        background.draw(g2);
+        player.draw(g2);
+
+        g2.dispose();
+    }
+}
