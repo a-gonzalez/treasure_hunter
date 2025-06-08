@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 
 import entity.Player;
 import tile.Background;
+import item.*;
 
 public class GamePanel extends JPanel implements Runnable
 {
@@ -27,7 +28,9 @@ public class GamePanel extends JPanel implements Runnable
     Background background = new Background(this);
     
     public Collision collision = new Collision(this);
+    public Assets assets = new Assets(this);
     public Player player = new Player(this, control);
+    public Item items[] = new Item[10];
 
     // World settings
     public final int maxWorldColumns = 50;
@@ -42,6 +45,11 @@ public class GamePanel extends JPanel implements Runnable
         this.setDoubleBuffered(true);
         this.addKeyListener(control);
         this.setFocusable(true);
+    }
+
+    public void setAssets()
+    {
+        assets.setItems();
     }
 
     public void start()
@@ -99,7 +107,18 @@ public class GamePanel extends JPanel implements Runnable
         /*g2.setColor(Color.white);
         g2.fillRect(x, y, tileSize, tileSize);*/
         
+        // environment tiles
         background.draw(g2);
+
+        // game assets - keys, doors, treasure chest..
+        for (int index = 0; index < items.length; index++)
+        {
+            if (items[index] != null)
+            {
+                items[index].draw(g2, this);
+            }
+        }
+
         player.draw(g2);
 
         g2.dispose();
