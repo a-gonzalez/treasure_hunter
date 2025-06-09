@@ -7,7 +7,7 @@ public class Door extends Item
 {
     public Door()
     {
-        name = "Door";
+        type = Type.Door;
 
         try
         {
@@ -17,5 +17,6 @@ public class Door extends Item
         {
             exception.printStackTrace();
         }
+        collision = true;
     }
 }

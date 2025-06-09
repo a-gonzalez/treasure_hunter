@@ -25,18 +25,21 @@ public class GamePanel extends JPanel implements Runnable
 
     Thread thread;
     Control control = new Control();
+    Sound sound = new Sound();
     Background background = new Background(this);
     
     public Collision collision = new Collision(this);
     public Assets assets = new Assets(this);
+    
+    // entity and item
     public Player player = new Player(this, control);
     public Item items[] = new Item[10];
 
     // World settings
     public final int maxWorldColumns = 50;
     public final int maxWorldRows = 50;
-    public final int worldWidth = tileSize * maxWorldColumns;
-    public final int worldHeight = tileSize * maxWorldRows;
+    //public final int worldWidth = tileSize * maxWorldColumns;
+    //public final int worldHeight = tileSize * maxWorldRows;
 
     public GamePanel()
     {
@@ -50,6 +53,8 @@ public class GamePanel extends JPanel implements Runnable
     public void setAssets()
     {
         assets.setItems();
+
+        startMusic(0);
     }
 
     public void start()
@@ -122,5 +127,23 @@ public class GamePanel extends JPanel implements Runnable
         player.draw(g2);
 
         g2.dispose();
+    }
+
+    public void startMusic(int index)
+    {
+        sound.setFile(index);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic()
+    {
+        sound.stop();
+    }
+
+    public void playEffect(int index)
+    {
+        sound.setFile(index);
+        sound.play();
     }
 }

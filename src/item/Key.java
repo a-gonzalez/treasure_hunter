@@ -7,7 +7,7 @@ public class Key extends Item
 {
     public Key()
     {
-        name = "Key";
+        type = Type.Key;
 
         try
         {
@@ -17,5 +17,6 @@ public class Key extends Item
         {
             exception.printStackTrace();
         }
+        collision = true;
     }
 }

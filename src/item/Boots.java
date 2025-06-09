@@ -3,15 +3,15 @@ package item;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class Chest extends Item
+public class Boots extends Item
 {
-    public Chest()
+    public Boots()
     {
-        type = Type.Chest;
+        type = Type.Boots;
 
         try
         {
-            image = ImageIO.read(getClass().getResourceAsStream("/resources/img/item/chest.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/resources/img/item/boots.png"));
         }
         catch (IOException exception)
         {

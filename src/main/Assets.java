@@ -40,5 +40,11 @@ public class Assets
         panel.items[6] = new Chest();
         panel.items[6].worldX = 10 * panel.tileSize;
         panel.items[6].worldY = 7 * panel.tileSize;
+
+        panel.items[7] = new Boots();
+        panel.items[7].worldX = 37 * panel.tileSize;
+        panel.items[7].worldY = 42 * panel.tileSize;
+
+        //System.out.println(panel.items.length);
     }
 }

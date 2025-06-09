@@ -2,15 +2,20 @@ package item;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
 
 import main.GamePanel;
 
 public class Item
 {
     public BufferedImage image;
-    public String name;
+    //public String name;
+    public Type type;
     public boolean collision = false;
     public int worldX, worldY;
+    public int solidDefaultX = 0;
+    public int solidDefaultY = 0;
+    public Rectangle solid = new Rectangle(0, 0, 48, 48);
 
     public void draw(Graphics2D g2, GamePanel panel)
     {

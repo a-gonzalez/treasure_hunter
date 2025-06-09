@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 
 import main.Control;
 import main.GamePanel;
+import item.*;
 
 public class Player extends Entity
 {
@@ -23,6 +24,7 @@ public class Player extends Entity
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
 
     //int interval = 40;
     //int timer = 0;
@@ -35,7 +37,9 @@ public class Player extends Entity
         screenX = panel.screenWidth / 2 - (panel.tileSize / 2);
         screenY = panel.screenHeight / 2 - (panel.tileSize / 2);
 
-        hitbox = new Rectangle(8, 16, 32, 32);
+        solid = new Rectangle(8, 16, 32, 32);
+        solidDefaultX = solid.x;
+        solidDefaultY = solid.y;
 
         initialize();
     }
@@ -102,7 +106,13 @@ public class Player extends Entity
             }
             collision = false;
 
-            panel.collision.check(this);
+            // check tile collision
+            panel.collision.checkEntity(this);
+
+            // check item collision
+            int itemIndex = panel.collision.checkItem(this, true);
+
+            pickUpItem(itemIndex);
 
             if (!collision)
             {
@@ -126,7 +136,6 @@ public class Player extends Entity
                     }
                 }
             }
-
             ++spriteCounter;
 
             if (spriteCounter > 14)
@@ -140,6 +149,55 @@ public class Player extends Entity
                     spriteNumber = 1;
                 }
                 spriteCounter = 0;
+            }
+        }
+    }
+
+    public void pickUpItem(int index)
+    {
+        //System.out.format("pick-up index: %d", index);
+
+        if (index != 999)
+        {
+            switch(panel.items[index].type)
+            {
+                case Key :
+                {
+                    panel.playEffect(1);
+
+                    ++hasKey;
+                    panel.items[index] = null;
+
+                    break;
+                }
+                case Door :
+                {
+                    if (hasKey > 0)
+                    {
+                        panel.playEffect(3);
+
+                        --hasKey;
+                        panel.items[index] = null;
+                    }
+                    break;
+                }
+                case Chest :
+                {
+                    /*panel.items[index] = new ChestOpened();
+                    panel.items[index].worldX = panel.items[index].worldX;
+                    panel.items[index].worldY = panel.items[index].worldY;*/
+
+                    break;
+                }
+                case Boots :
+                {
+                    panel.playEffect(2);
+
+                    speed += 2;
+                    panel.items[index] = null;
+
+                    break;
+                }
             }
         }
     }

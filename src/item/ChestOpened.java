@@ -3,20 +3,19 @@ package item;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class Chest extends Item
+public class ChestOpened extends Item
 {
-    public Chest()
+    public ChestOpened()
     {
-        type = Type.Chest;
+        type = Type.ChestOpened;
 
         try
         {
-            image = ImageIO.read(getClass().getResourceAsStream("/resources/img/item/chest.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/resources/img/item/chest_opened.png"));
         }
         catch (IOException exception)
         {
             exception.printStackTrace();
         }
-        collision = true;
     }
 }
