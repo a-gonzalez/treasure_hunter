@@ -24,7 +24,7 @@ public class Player extends Entity
 
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
+    public int keys = 0;
 
     //int interval = 40;
     //int timer = 0;
@@ -165,27 +165,35 @@ public class Player extends Entity
                 {
                     panel.playEffect(1);
 
-                    ++hasKey;
+                    ++keys;
                     panel.items[index] = null;
+
+                    panel.ui.showMessage("You found a key!");
 
                     break;
                 }
                 case Door :
                 {
-                    if (hasKey > 0)
+                    if (keys > 0)
                     {
                         panel.playEffect(3);
 
-                        --hasKey;
+                        --keys;
                         panel.items[index] = null;
+
+                        panel.ui.showMessage("You opened a door!");
+                    }
+                    else
+                    {
+                        panel.ui.showMessage("You need a key to open this door!");
                     }
                     break;
                 }
                 case Chest :
                 {
-                    /*panel.items[index] = new ChestOpened();
-                    panel.items[index].worldX = panel.items[index].worldX;
-                    panel.items[index].worldY = panel.items[index].worldY;*/
+                    panel.ui.gameOver = true;
+                    panel.stopMusic();
+                    panel.playEffect(4);
 
                     break;
                 }
@@ -195,6 +203,8 @@ public class Player extends Entity
 
                     speed += 2;
                     panel.items[index] = null;
+
+                    panel.ui.showMessage("POWER-UP - SPEED!");
 
                     break;
                 }
@@ -266,7 +276,8 @@ public class Player extends Entity
         g2.drawImage(image, screenX, screenY, width * scale, height * scale, null);
         
         g2.setColor(Color.red);
-        g2.drawRect(this.screenX + 8, this.screenY + 16, 32, 32);
+        //g2.drawRect(this.screenX + 8, this.screenY + 16, 32, 32);
+        g2.drawRect(screenX + solid.x, screenY + solid.y, solid.width, solid.height);
     }
 }
 /*

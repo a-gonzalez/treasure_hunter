@@ -25,11 +25,13 @@ public class GamePanel extends JPanel implements Runnable
 
     Thread thread;
     Control control = new Control();
-    Sound sound = new Sound();
+    Sound music = new Sound();
+    Sound effect = new Sound();
     Background background = new Background(this);
     
     public Collision collision = new Collision(this);
     public Assets assets = new Assets(this);
+    public UI ui = new UI(this);
     
     // entity and item
     public Player player = new Player(this, control);
@@ -125,25 +127,26 @@ public class GamePanel extends JPanel implements Runnable
         }
 
         player.draw(g2);
+        ui.draw(g2);
 
         g2.dispose();
     }
 
     public void startMusic(int index)
     {
-        sound.setFile(index);
-        sound.play();
-        sound.loop();
+        music.setFile(index);
+        music.play();
+        music.loop();
     }
 
     public void stopMusic()
     {
-        sound.stop();
+        music.stop();
     }
 
     public void playEffect(int index)
     {
-        sound.setFile(index);
-        sound.play();
+        effect.setFile(index);
+        effect.play();
     }
 }
