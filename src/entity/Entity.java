@@ -12,7 +12,7 @@ public class Entity
     public int scale;
     public int spriteCounter = 0;
     public int spriteNumber = 1;
-    //public boolean moving = false;
+    public boolean moving = false;
     public int solidDefaultX, solidDefaultY;
     public boolean collision = false;
 

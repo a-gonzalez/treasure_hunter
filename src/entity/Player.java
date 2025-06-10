@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 import main.Control;
 import main.GamePanel;
-import item.*;
+//import item.*;
 
 public class Player extends Entity
 {
@@ -28,6 +28,8 @@ public class Player extends Entity
 
     //int interval = 40;
     //int timer = 0;
+    int idleCounter = 0;
+    int pixelCounter = 0;
 
     public Player(GamePanel panel, Control control)
     {
@@ -37,7 +39,8 @@ public class Player extends Entity
         screenX = panel.screenWidth / 2 - (panel.tileSize / 2);
         screenY = panel.screenHeight / 2 - (panel.tileSize / 2);
 
-        solid = new Rectangle(8, 16, 32, 32);
+        //solid = new Rectangle(8, 16, 32, 32);
+        solid = new Rectangle(1, 1, 46, 46);
         solidDefaultX = solid.x;
         solidDefaultY = solid.y;
 
@@ -59,6 +62,7 @@ public class Player extends Entity
         scale = 3;
         speed = 4;
         direction = Direction.Down;
+        moving = false;
     }
 
     public void getPlayerImages()
@@ -86,34 +90,52 @@ public class Player extends Entity
 
     public void update(double delta_time)
     {
-        if (control.up || control.down || control.right || control.left)
+        if (!moving)
         {
-            if (control.up)
+            if (control.up || control.down || control.right || control.left)
             {
-                direction = Direction.Up;
-            }
-            else if (control.down)
-            {
-                direction = Direction.Down;
-            }
-            else if (control.left)
-            {
-                direction = Direction.Left;
-            }
-            else if (control.right)
-            {
-                direction = Direction.Right;
-            }
-            collision = false;
+                if (control.up)
+                {
+                    direction = Direction.Up;
+                }
+                else if (control.down)
+                {
+                    direction = Direction.Down;
+                }
+                else if (control.left)
+                {
+                    direction = Direction.Left;
+                }
+                else if (control.right)
+                {
+                    direction = Direction.Right;
+                }
+                moving = true;
+                collision = false;
 
-            // check tile collision
-            panel.collision.checkEntity(this);
+                // check tile collision
+                panel.collision.checkEntity(this);
 
-            // check item collision
-            int itemIndex = panel.collision.checkItem(this, true);
+                // check item collision
+                int itemIndex = panel.collision.checkItem(this, true);
 
-            pickUpItem(itemIndex);
+                pickUpItem(itemIndex);
+            }
+            else
+            {// reset player sprite when idle for 20 frames
+                ++idleCounter;
 
+                if (idleCounter == 20)
+                {
+                    spriteNumber = 1;
+
+                    idleCounter = 0;
+                }
+            }
+        }
+        
+        if (moving)
+        {
             if (!collision)
             {
                 switch (direction)
@@ -149,6 +171,13 @@ public class Player extends Entity
                     spriteNumber = 1;
                 }
                 spriteCounter = 0;
+            }
+            pixelCounter += speed;
+
+            if (pixelCounter == 48)
+            {
+                moving = false;
+                pixelCounter = 0;
             }
         }
     }
