@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
 
 import main.GamePanel;
+import main.Utility;
 
 public class Item
 {
@@ -16,6 +17,7 @@ public class Item
     public int solidDefaultX = 0;
     public int solidDefaultY = 0;
     public Rectangle solid = new Rectangle(0, 0, 48, 48);
+    public Utility utility = new Utility();
 
     public void draw(Graphics2D g2, GamePanel panel)
     {

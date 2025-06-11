@@ -9,12 +9,9 @@ import java.io.PrintStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-//import java.net.URL;
-//import java.net.URISyntaxException;
-
 import main.Control;
 import main.GamePanel;
-//import item.*;
+import main.Utility;
 
 public class Player extends Entity
 {
@@ -26,8 +23,6 @@ public class Player extends Entity
     public final int screenY;
     public int keys = 0;
 
-    //int interval = 40;
-    //int timer = 0;
     int idleCounter = 0;
     int pixelCounter = 0;
 
@@ -65,27 +60,33 @@ public class Player extends Entity
         moving = false;
     }
 
-    public void getPlayerImages()
+    public BufferedImage setup(String name)
     {
+        Utility utility = new Utility();
+        BufferedImage scaled = null;
+
         try
         {
-            up0 = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/up0.png"));
-            up1 = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/up1.png"));
-            right0 = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/right0.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/right1.png"));
-            left0 = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/left0.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/left1.png"));
-            down0 = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/down0.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/down1.png"));
-
-            current = right0;
-
-            //System.out.println(current != null);
+            scaled = ImageIO.read(getClass().getResourceAsStream("/resources/img/player/" + name + ".png"));
+            scaled = utility.scale(scaled, panel.tileSize, panel.tileSize);
         }
-        catch (Exception exception)
+        catch (IOException exception)
         {
             exception.printStackTrace();
         }
+        return scaled;
+    }
+
+    public void getPlayerImages()
+    {
+        up0 = setup("up0");
+        up1 = setup("up1");
+        right0 = setup("right0");
+        right1 = setup("right1");
+        left0 = setup("left0");
+        left1 = setup("left1");
+        down0 = setup("down0");
+        down1 = setup("down1");
     }
 
     public void update(double delta_time)
@@ -214,14 +215,14 @@ public class Player extends Entity
                     }
                     else
                     {
-                        panel.ui.showMessage("You need a key to open this door!");
+                        panel.ui.showMessage("You need a key to open this door.");
                     }
                     break;
                 }
                 case Chest :
                 {
                     panel.ui.gameOver = true;
-                    panel.stopMusic();
+                    //panel.stopMusic();
                     panel.playEffect(4);
 
                     break;
@@ -233,7 +234,7 @@ public class Player extends Entity
                     speed += 2;
                     panel.items[index] = null;
 
-                    panel.ui.showMessage("POWER-UP - SPEED!");
+                    panel.ui.showMessage("Power-Up - Speed");
 
                     break;
                 }
@@ -302,7 +303,7 @@ public class Player extends Entity
                 break;
             }
         }
-        g2.drawImage(image, screenX, screenY, width * scale, height * scale, null);
+        g2.drawImage(image, screenX, screenY, null);
         
         g2.setColor(Color.red);
         //g2.drawRect(this.screenX + 8, this.screenY + 16, 32, 32);

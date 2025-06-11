@@ -21,7 +21,7 @@ public class Sound
 
     public void play()
     {
-        clip.start();
+        //clip.start();
     }
 
     public void setFile(int index)

@@ -22,12 +22,12 @@ public class UI
     public boolean messageOn = false;
     public String message = "";
 
-    public UI(GamePanel panel)
+    public UI (GamePanel panel)
     {
         this.panel = panel;
         this.arial_40 = new Font("Arial", Font.PLAIN, 40);
         this.arial_80 = new Font("Arial", Font.BOLD, 80);
-        Key key = new Key();
+        Key key = new Key(panel);
 
         key_icon = key.image;
     }
@@ -57,7 +57,7 @@ public class UI
             x = panel.screenWidth / 2 - textWidth / 2;
             y = panel.screenHeight / 2 + (panel.tileSize * 4);
 
-            text = "Your total game-time is: " + playTimeFormat.format(playTime);
+            text = "Your total time is: " + playTimeFormat.format(playTime);
             textWidth = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             
             g2.drawString(text, x, y);

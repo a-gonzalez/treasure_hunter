@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable
     {
         assets.setItems();
 
-        startMusic(0);
+        //startMusic(0);
     }
 
     public void start()
@@ -114,6 +114,8 @@ public class GamePanel extends JPanel implements Runnable
         /*g2.setColor(Color.white);
         g2.fillRect(x, y, tileSize, tileSize);*/
         
+        //long drawStart = System.nanoTime();
+
         // environment tiles
         background.draw(g2);
 
@@ -128,6 +130,12 @@ public class GamePanel extends JPanel implements Runnable
 
         player.draw(g2);
         ui.draw(g2);
+
+        //long drawEnd = System.nanoTime();
+        //long elapsedTime = drawEnd - drawStart;
+
+        /*g2.setColor(Color.white);
+        g2.drawString("Draw Time: " + elapsedTime, 10, 400);*/
 
         g2.dispose();
     }
