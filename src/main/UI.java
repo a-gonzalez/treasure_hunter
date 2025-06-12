@@ -11,7 +11,7 @@ import item.Key;
 public class UI
 {
     GamePanel panel;
-    BufferedImage key_icon;
+    Graphics2D g2;
     Font arial_40;
     Font arial_80;
     int messageCounter = 0;
@@ -27,9 +27,6 @@ public class UI
         this.panel = panel;
         this.arial_40 = new Font("Arial", Font.PLAIN, 40);
         this.arial_80 = new Font("Arial", Font.BOLD, 80);
-        Key key = new Key(panel);
-
-        key_icon = key.image;
     }
 
     public void showMessage(String text)
@@ -40,71 +37,37 @@ public class UI
 
     public void draw(Graphics2D g2)
     {
-        if (gameOver)
+        this.g2 = g2;
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80f));
+        g2.setColor(Color.white);
+
+        if (panel.state == State.Play)
         {
-            g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(20f));
-
-            String text = "You found the treasure!";
-            int textWidth = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            int x, y;
-
-            x = panel.screenWidth / 2 - textWidth / 2;
-            y = panel.screenHeight / 2 - (panel.tileSize * 3);
-
-            g2.drawString(text, x, y);
-
-            x = panel.screenWidth / 2 - textWidth / 2;
-            y = panel.screenHeight / 2 + (panel.tileSize * 4);
-
-            text = "Your total time is: " + playTimeFormat.format(playTime);
-            textWidth = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            
-            g2.drawString(text, x, y);
-
-            x = panel.screenWidth / 2 - textWidth / 2;
-            y = panel.screenHeight / 2 - (panel.tileSize * 3);
-
-            g2.setColor(Color.yellow);
-            g2.setFont(arial_80);
-
-            text = "Congratulations!";
-            textWidth = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = panel.screenWidth / 2 - textWidth / 2;
-            y = panel.screenHeight / 2 + (panel.tileSize * 2);
-
-            g2.drawString(text, x, y);
-
-            panel.thread = null;
+            // regular game ui draw
         }
-        else
+
+        if (panel.state == State.Pause)
         {
-            g2.setFont(arial_40);
-            g2.setColor(Color.yellow);
-            g2.drawImage(key_icon, panel.tileSize / 1, panel.tileSize / 2, panel.tileSize, panel.tileSize, null);
-            g2.drawString(Integer.toString(panel.player.keys), panel.tileSize * 2, 65);
-
-            // play time
-            playTime += (double) 1 / 60;
-
-            g2.drawString("Time: " + playTimeFormat.format(playTime), panel.tileSize * 11, 65);
-
-            // messages
-            if (messageOn)
-            {
-                //g2.setFont(arial_20);
-                g2.setFont(g2.getFont().deriveFont(20f));
-                g2.setColor(Color.white);
-                g2.drawString(message, panel.tileSize / 2, panel.tileSize * 5);
-
-                ++messageCounter;
-
-                if (messageCounter > 120)
-                {
-                    messageOn = false;
-                    messageCounter = 0;
-                }
-            }
+            drawPauseScreen();
         }
+    }
+
+    public void drawPauseScreen()
+    {
+        String text = "Game Paused";
+        
+        int y = panel.screenHeight / 2;
+        int x = getXtoCenterText(text);
+
+        g2.drawString(text, x, y);
+    }
+
+    public int getXtoCenterText(String text)
+    {
+        int width = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        int x = panel.screenWidth / 2 - width / 2;
+
+        return x;
     }
 }

@@ -21,7 +21,6 @@ public class Player extends Entity
 
     public final int screenX;
     public final int screenY;
-    public int keys = 0;
 
     int idleCounter = 0;
     int pixelCounter = 0;
@@ -189,56 +188,6 @@ public class Player extends Entity
 
         if (index != 999)
         {
-            switch(panel.items[index].type)
-            {
-                case Key :
-                {
-                    panel.playEffect(1);
-
-                    ++keys;
-                    panel.items[index] = null;
-
-                    panel.ui.showMessage("You found a key!");
-
-                    break;
-                }
-                case Door :
-                {
-                    if (keys > 0)
-                    {
-                        panel.playEffect(3);
-
-                        --keys;
-                        panel.items[index] = null;
-
-                        panel.ui.showMessage("You opened a door!");
-                    }
-                    else
-                    {
-                        panel.ui.showMessage("You need a key to open this door.");
-                    }
-                    break;
-                }
-                case Chest :
-                {
-                    panel.ui.gameOver = true;
-                    //panel.stopMusic();
-                    panel.playEffect(4);
-
-                    break;
-                }
-                case Boots :
-                {
-                    panel.playEffect(2);
-
-                    speed += 2;
-                    panel.items[index] = null;
-
-                    panel.ui.showMessage("Power-Up - Speed");
-
-                    break;
-                }
-            }
         }
     }
 

@@ -5,7 +5,13 @@ import java.awt.event.KeyListener;
 
 public class Control implements KeyListener
 {
+    GamePanel panel;
     public boolean up, down, left, right;
+
+    public Control(GamePanel panel)
+    {
+        this.panel = panel;
+    }
 
     @Override
     public void keyTyped(KeyEvent event)
@@ -38,6 +44,18 @@ public class Control implements KeyListener
         {
             right = true;
             //direction = Direction.Right;
+        }
+
+        if (code == KeyEvent.VK_P)
+        {
+            if (panel.state == State.Play)
+            {
+                panel.state = State.Pause;
+            }
+            else if (panel.state == State.Pause)
+            {
+                panel.state = State.Play;
+            }
         }
     }
 

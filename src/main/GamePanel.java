@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable
     final int FPS = 60;
 
     Thread thread;
-    Control control = new Control();
+    Control control = new Control(this);
     Sound music = new Sound();
     Sound effect = new Sound();
     Background background = new Background(this);
@@ -40,8 +40,8 @@ public class GamePanel extends JPanel implements Runnable
     // World settings
     public final int maxWorldColumns = 50;
     public final int maxWorldRows = 50;
-    //public final int worldWidth = tileSize * maxWorldColumns;
-    //public final int worldHeight = tileSize * maxWorldRows;
+    
+    public State state;
 
     public GamePanel()
     {
@@ -52,11 +52,13 @@ public class GamePanel extends JPanel implements Runnable
         this.setFocusable(true);
     }
 
-    public void setAssets()
+    public void setup()
     {
         //assets.setItems();
 
         startMusic(0);
+
+        state = State.Play;
     }
 
     public void start()
@@ -101,7 +103,15 @@ public class GamePanel extends JPanel implements Runnable
 
     public void update(double delta_time)
     {
-        player.update(delta_time);
+        if (state == State.Play)
+        {
+            player.update(delta_time);
+        }
+
+        if (state == State.Pause)
+        {
+            // later, later
+        }
     }
 
     public void paintComponent(Graphics graphics)

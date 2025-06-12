@@ -18,7 +18,7 @@ public class Main
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-        panel.setAssets();
+        panel.setup();
         panel.start();
 
         //int[] array = { 1, 3, 5, 7, 9 };
