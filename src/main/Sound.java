@@ -8,7 +8,7 @@ import javax.sound.sampled.Clip;
 public class Sound
 {
     Clip clip;
-    URL url[] = new URL[30];
+    URL url[] = new URL[10];
 
     public Sound()
     {
@@ -21,7 +21,7 @@ public class Sound
 
     public void play()
     {
-        //clip.start();
+        clip.start();
     }
 
     public void setFile(int index)

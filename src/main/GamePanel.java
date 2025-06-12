@@ -54,9 +54,9 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setAssets()
     {
-        assets.setItems();
+        //assets.setItems();
 
-        //startMusic(0);
+        startMusic(0);
     }
 
     public void start()
@@ -120,13 +120,13 @@ public class GamePanel extends JPanel implements Runnable
         background.draw(g2);
 
         // game assets - keys, doors, treasure chest..
-        for (int index = 0; index < items.length; index++)
+        /*for (int index = 0; index < items.length; index++)
         {
             if (items[index] != null)
             {
                 items[index].draw(g2, this);
             }
-        }
+        }*/
 
         player.draw(g2);
         ui.draw(g2);
