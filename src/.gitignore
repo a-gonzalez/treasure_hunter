@@ -1,3 +1,9 @@
+bin/
+main/
+entity/
+tile/
+item/
+
 # Compiled class file
 *.class
 
